@@ -42,30 +42,19 @@
 
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
-
 		bg = game.add.sprite(0, 0, 'background');
 		// origin is originally set to center, change origin to the top-left of the sprite
-		//bg.setOrigin(0,0);
 
-		//this.background = this.add.sprite(0,0,'background')
-	
-	
 		game.plant = game.add.group(); //creating a new plant group
 		game.plant.enableBody = true; //allows interaction between the plant and user
 		game.plant.physicsBodyType = Phaser.Physics.ARCADE;//one of the three types of groups
 
-
-
 		group2 = game.add.group();
-
 
 		player = game.add.sprite(70, 180, 'player') //adds the image to the field
 		game.physics.enable(player, Phaser.Physics.ARCADE);
 
-
 		group2.add(player);
-
-
 
 
 		var wildflower1 = new createPlant(false, 0, player, false, 250, 180)
@@ -105,24 +94,13 @@
 		{
 			player.x -= 1
 			grow()
-			//player.body.velocity.x = -200;
 		}
 
 		if (this.rightKey.isDown & player.x <= 640)
 		{
 			player.x += 1
 			grow()
-
 		}
-
-		if(this.killKey.isDown & !this.plant.isDown & !this.downKey.isDown & !this.upKey.isDown & !this.leftKey.isDown & !this.rightKey.isDown)
-		{
-			for(var i = 0; i<listOfPlants.length; i++){
-				killplant(listOfPlants[i])
-			}
-		}
-
-
 
 		if (this.downKey.isDown){
 			if(player.y >= 0){
@@ -130,8 +108,6 @@
 				grow()
 			}
 		}
-
-
 
 		if (this.upKey.isDown){
 			if(player.y <= 360){
@@ -142,37 +118,46 @@
 
 		if(this.plant.isDown & !this.downKey.isDown & !this.upKey.isDown & !this.leftKey.isDown & !this.rightKey.isDown)
 		{
-			alert("asda")
 			plantplant(player)
 		}
 
-		for(var x = 0; x<listOfPlants.length; x++){
-			if(listOfPlants[x].death == false){
-				if(listOfPlants[x].age == 0){
-					game.add.sprite(listOfPlants[x].x, listOfPlants[x].y,'plant')
+		display()
 
-				}
-				if(listOfPlants[x].age == 100){
-					game.add.sprite(listOfPlants[x].x, listOfPlants[x].y,'plant1')
-				}
-				if(listOfPlants[x].age == 200){
-					game.add.sprite(listOfPlants[x].x, listOfPlants[x].y,'plant2')
-				}
-				if(listOfPlants[x].age == 300){
-					game.add.sprite(listOfPlants[x].x, listOfPlants[x].y,'plant3')
-				}
-				if(listOfPlants[x].age == 500){
-					game.add.sprite(listOfPlants[x].x, listOfPlants[x].y,'plant5')
-				}
-			}else{
-				game.add.sprite(listOfPlants[x].x, listOfPlants[x].y,'blank')
+		if(this.killKey.isDown & !this.plant.isDown & !this.downKey.isDown & !this.upKey.isDown & !this.leftKey.isDown & !this.rightKey.isDown)
+		{
+			for(var i = 0; i<listOfPlants.length; i++){
+				killplant(listOfPlants[i])
 			}
+
 		}
 
 		game.world.bringToTop(group2);
 
 	}
-	
+
+
+	function display() {
+		for(var x = 0; x<listOfPlants.length; x++){
+			if(listOfPlants[x].death == false){
+				if(listOfPlants[x].age > 0 & listOfPlants[x].age <= 99){
+					var sprite = game.add.sprite(listOfPlants[x].x, listOfPlants[x].y,'plant')
+
+				}
+				if(listOfPlants[x].age > 100 & listOfPlants[x].age <= 199){
+					var sprite = game.add.sprite(listOfPlants[x].x, listOfPlants[x].y,'plant1')
+				}
+				if(listOfPlants[x].age > 200 & listOfPlants[x].age <= 299){
+					var sprite = game.add.sprite(listOfPlants[x].x, listOfPlants[x].y,'plant2')
+				}
+				if(listOfPlants[x].age > 300 & listOfPlants[x].age <= 499){
+					var sprite = game.add.sprite(listOfPlants[x].x, listOfPlants[x].y,'plant3')
+				}
+				if(listOfPlants[x].age >= 500){
+					var sprite = game.add.sprite(listOfPlants[x].x, listOfPlants[x].y,'plant5')
+				}
+			}
+		}
+	}
 
 	 function grow(){
 		for(var y = 0; y<listOfPlants.length; y++){
@@ -184,8 +169,15 @@
 	 function killplant(crop){
 		//you can step on your own crop and kill it
 		if(player.x>crop.x-15 & player.x<crop.x+15)
-			if(player.y>crop.y-15 & player.y<crop.y+15)
+			if(player.y>crop.y-15 & player.y<crop.y+15){
 				crop.death = true;
+				game.world.removeAll('plant')
+				game.add.sprite(0, 0, 'background');
+				player = game.add.sprite(player.x, player.y, 'player')
+				display()
+
+
+			}
 	}
 
 
