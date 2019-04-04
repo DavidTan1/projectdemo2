@@ -90,28 +90,41 @@
 	//continously update the game
 	function update(){
 
+		display()
+
 		if (this.leftKey.isDown & player.x >= 0)
 		{
+			player.x -= 1
+			player.x -= 1
 			player.x -= 1
 			grow()
 		}
 
-		if (this.rightKey.isDown & player.x <= 640)
+		if (this.rightKey.isDown & player.x <= 610)
 		{
 			player.x += 1
+			player.x += 1
+			player.x += 1
+
 			grow()
 		}
 
 		if (this.downKey.isDown){
-			if(player.y >= 0){
+			if(player.y <= 310){
 				player.y += 1
+				player.y += 1
+				player.y += 1
+
 				grow()
 			}
 		}
 
 		if (this.upKey.isDown){
-			if(player.y <= 360){
+			if(player.y >= 0){
 				player.y -= 1
+				player.y -= 1
+				player.y -= 1
+
 				grow()
 			}
 		}
@@ -121,7 +134,7 @@
 			plantplant(player)
 		}
 
-		display()
+
 
 		if(this.killKey.isDown & !this.plant.isDown & !this.downKey.isDown & !this.upKey.isDown & !this.leftKey.isDown & !this.rightKey.isDown)
 		{
@@ -139,7 +152,7 @@
 	function display() {
 		for(var x = 0; x<listOfPlants.length; x++){
 			if(listOfPlants[x].death == false){
-				if(listOfPlants[x].age > 0 & listOfPlants[x].age <= 99){
+				if(listOfPlants[x].age >= 0 & listOfPlants[x].age <= 99){
 					var sprite = game.add.sprite(listOfPlants[x].x, listOfPlants[x].y,'plant')
 
 				}
